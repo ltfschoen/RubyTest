@@ -16,17 +16,6 @@ class Account
   	self.balance = balance
   end
 
-  # Implementation of ActiveModel::Serializers::JSON http://guides.rubyonrails.org/active_model_basics.html
-  def attributes=(hash)
-    hash.each do |key, value|
-      send("#{key}=", value)
-    end
-  end
- 
-  def attributes
-    { 'balance' => nil }
-  end
-
   # Setter method enforces rules  
   def balance=(balance)
   	begin
@@ -47,6 +36,18 @@ class Account
   end
 
 	private
+
+	  # Implementation of ActiveModel::Serializers::JSON http://guides.rubyonrails.org/active_model_basics.html
+	  def attributes=(hash)
+	    hash.each do |key, value|
+	      send("#{key}=", value)
+	    end
+	  end
+	 
+	  def attributes
+	    { 'balance' => nil }
+	  end
+
 		def convert_balance_to_string(balance)
 			(balance.kind_of? Numeric) || (balance.kind_of? String) ? balance.to_s : (raise CustomError.new('Balance must contain numeric characters.'))
 		end
