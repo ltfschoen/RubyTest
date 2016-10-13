@@ -4,6 +4,7 @@ require_relative '../helpers/numeric_overrides'
 
 class Account
 
+	include ActiveModel::Serializers::JSON
   include ActiveModel::Validations
   validates :balance, :numericality => { :greater_than_or_equal_to => 0 }
 
@@ -13,6 +14,17 @@ class Account
   # Delegate to Setter methods instead of set instance variables directly.  
   def initialize(balance)
   	self.balance = balance
+  end
+
+  # Implementation of ActiveModel::Serializers::JSON http://guides.rubyonrails.org/active_model_basics.html
+  def attributes=(hash)
+    hash.each do |key, value|
+      send("#{key}=", value)
+    end
+  end
+ 
+  def attributes
+    { 'balance' => nil }
   end
 
   # Setter method enforces rules  
