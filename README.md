@@ -4,3 +4,4 @@ References:
 Usage:
 - Run exercise_system with `ruby ./exercise_system/main.rb`
 - Run accounting_system with `ruby ./accounting_system/main.rb`
+- Run unit tests with `rspec`
