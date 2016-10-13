@@ -17,11 +17,16 @@ class Account
 
   # Setter method enforces rules  
   def balance=(balance)
-  	unless is_balance_zero?(balance)  
-	  	validate_balance_numeric(balance)
-	  	validate_balance_non_negative(balance)
+  	begin
+	  	unless is_balance_zero?(balance)  
+		  	validate_balance_numeric(balance)
+		  	validate_balance_non_negative(balance)
+		  end
+	    @balance = BigDecimal.new(convert_balance_to_string(balance))
+	  rescue CustomError
+	  ensure
+	  	@balance = 0 if @balance.nil?
 	  end
-    @balance = BigDecimal.new(convert_balance_to_string(balance))
   end
 
   # Call with `puts <class_instance_name>`
@@ -31,19 +36,19 @@ class Account
 
 	private
 		def convert_balance_to_string(balance)
-			(balance.kind_of? Numeric) || (balance.kind_of? String) ? balance.to_s : (raise CustomError.new('error'), 'Balance must contain numeric characters.')
+			(balance.kind_of? Numeric) || (balance.kind_of? String) ? balance.to_s : (raise CustomError.new('Balance must contain numeric characters.'))
 		end
 
 		def convert_balance_to_bigdecimal(balance)
-			(balance.kind_of? Numeric) || (balance.kind_of? String) ? BigDecimal.new(convert_balance_to_string(balance)) : (raise CustomError.new('error'), 'Balance must contain numeric characters.')
+			(balance.kind_of? Numeric) || (balance.kind_of? String) ? BigDecimal.new(convert_balance_to_string(balance)) : (raise CustomError.new('Balance must contain numeric characters.'))
 		end
 
 		def validate_balance_numeric(balance)
-			raise CustomError.new('error'), 'Balance string must contain valid numeric characters.' if not is_balance_numeric?(balance)
+			raise CustomError.new('Balance string must contain valid numeric characters.') if not is_balance_numeric?(balance)
 		end
 
 		def validate_balance_non_negative(balance)
-			raise CustomError.new('error'), 'Balance must not be negative.' if is_balance_numeric?(balance) && is_balance_negative?(balance)
+			raise CustomError.new('Balance must not be negative.') if is_balance_numeric?(balance) && is_balance_negative?(balance)
 		end
 
 		def is_balance_zero?(balance)

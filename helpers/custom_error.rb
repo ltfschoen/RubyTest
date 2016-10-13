@@ -4,5 +4,6 @@ class CustomError < StandardError
   def initialize(custom)
   	super
     @custom = custom
+    puts custom
   end
 end

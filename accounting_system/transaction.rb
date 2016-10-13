@@ -1,3 +1,5 @@
+require_relative '../helpers/custom_error.rb'
+
 class Transaction
 
   # Delegate to Setter methods instead of set instance variables directly.  
@@ -18,9 +20,12 @@ class Transaction
   public
 
     def transfer(amount)
-      validate_sufficient_funds(@account_a, amount)
-      debit(@account_a, amount)
-      credit(@account_b, amount)
+      begin
+        validate_sufficient_funds(@account_a, amount)
+        debit(@account_a, amount)
+        credit(@account_b, amount)
+      rescue CustomError
+      end
     end
 
   private
@@ -34,7 +39,7 @@ class Transaction
     end
 
     def validate_sufficient_funds(account_a, amount)
-      raise CustomError.new('error'), 'Transfer amount cannot exceed account balance.' if not is_sufficient_funds?(account_a, amount)
+      is_sufficient_funds?(account_a, amount) ? true : (raise CustomError.new('Transfer amount cannot exceed account balance.'))
     end
 
     def is_sufficient_funds?(account_a, amount)
