@@ -24,10 +24,7 @@ class WordList
     end
 
     def count_frequency=(word_list)
-      counts = Hash.new(0)
-      for word in word_list
-        counts[word] += 1
-      end
-      @count_frequency = counts
+      @count_frequency = Hash.new(0)
+      word_list.each { |word| @count_frequency[word] += 1 }
     end
 end
