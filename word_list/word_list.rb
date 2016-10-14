@@ -13,11 +13,7 @@ class WordList
 
     # iterate over array with minimal coupling
     def top_three
-      sorted = @count_frequency.sort_by{|word, count| count}.reverse
-      top_three = sorted.first(3)
-      top_three.each do |word, count|
-        puts "#{word}: #{count}"
-      end
+      @count_frequency.sort_by{ |word, count| count }.reverse.first(3).map { |word, count| "#{word}: #{count}" }
     end
 
   private
