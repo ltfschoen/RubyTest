@@ -15,8 +15,8 @@ RSpec.describe Account, "#balance" do
 			expect(@checking.balance).to eq 200
 		end
 
-		it "raises argument error when try to create account with balance < 0" do
-			expect{ Account.new(-1) }.to raise_error(CustomError)
+		it "rescues custom error when try to create account with balance < 0" do
+			expect{ Account.new(-1) }.to_not raise_error(CustomError)
 		end
 	end
 end

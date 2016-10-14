@@ -18,9 +18,9 @@ RSpec.describe Transaction, "#debit" do
 			expect(@checking.balance).to eq 200
 		end
 
-		it "raises error when attempt to transfer value that exceeds 'from account' balance" do
+		it "rescues custom error when attempt to transfer value that exceeds 'from account' balance" do
 			expect(@savings.valid?).to eq true
-			expect{ @trans.transfer(201) }.to raise_error(CustomError)
+			expect{ @trans.transfer(201) }.to_not raise_error(CustomError)
 		end
 	end
 
