@@ -3,7 +3,6 @@ require 'bigdecimal'
 require_relative '../helpers/numeric_overrides'
 
 class Account
-
 	include ActiveModel::Serializers::JSON
   include ActiveModel::Validations
   validates :balance, :numericality => { :greater_than_or_equal_to => 0 }

@@ -1,6 +1,9 @@
 References:
 - http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
 
+Setup:
+- `bundle install`
+
 Unit Tests:
 - Run unit tests with `rspec`
 
@@ -12,6 +15,7 @@ require_relative './accounting_system/main'
 require_relative './exercise_system/main'
 require_relative './word_list/main'
 require_relative './file_list/main'
+require_relative './mixins/debug'
 ```
 - Experiment with reference to code used in "Example Usage"
 
