@@ -17,6 +17,7 @@ require_relative './exercise_system/main'
 require_relative './word_list/main'
 require_relative './file_list/main'
 require_relative './mixins/debug'
+require_relative './evidence_finder/main'
 ```
 - Experiment with reference to code used in "Example Usage"
 
