@@ -3,6 +3,7 @@ require 'bigdecimal'
 require_relative '../helpers/numeric_overrides'
 
 class Account
+	include Comparable
 	include ActiveModel::Serializers::JSON
   include ActiveModel::Validations
   validates :balance, :numericality => { :greater_than_or_equal_to => 0 }
@@ -33,6 +34,33 @@ class Account
   def to_s
     "Account Balance: #{@balance}"
   end
+
+	# Add all Comparator operators to compare Account Class Instances variable balance
+	def <=>(other_account)
+		self.balance <=> other_account.balance
+	end
+
+	# Quantity of Class Instance Objects
+	def self.all; ObjectSpace.each_object(self).to_a end
+	def self.count; all.length end
+
+	# Remove a specific Class Instance Object
+	def self.remove(account_object, &block)
+		ObjectSpace.define_finalizer(account_object, Account.method(:delete))
+		block
+	end
+
+	def self.destruct(account_object)
+		block_remove = Account.remove(account_object) { |param| Account.delete(param) }
+		p "Deleting #{account_object}"
+		block_remove.call(account_object)
+	end
+
+	def self.delete(account_object)
+		p "Count before delete #{self.count}"
+		GC.start(full_mark: true, immediate_sweep: true)
+		p "Count after delete #{self.count}"
+	end
 
 	private
 

@@ -6,6 +6,7 @@ Setup:
 
 Unit Tests:
 - Run unit tests with `rspec`
+*Note: [Raised Mixin issue on StackOverflow](https://stackoverflow.com/questions/40052573/unable-to-call-ruby-mixin-instance-method-from-rspec)*
 
 Experimentation:
 - Run Interactive Ruby: `irb`
