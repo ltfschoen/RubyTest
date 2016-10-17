@@ -18,6 +18,7 @@ require_relative './word_list/main'
 require_relative './file_list/main'
 require_relative './mixins/debug'
 require_relative './evidence_finder/main'
+require_relative './metadata_checker/main'
 ```
 - Experiment with reference to code used in "Example Usage"
 
