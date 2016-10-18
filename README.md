@@ -22,6 +22,7 @@ require_relative './file_list/main'
 require_relative './mixins/debug'
 require_relative './evidence_finder/main'
 require_relative './metadata_checker/main'
+require_relative './team_system/main'
 ```
 - Experiment with reference to code used in "Example Usage"
 
