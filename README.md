@@ -2,7 +2,10 @@ References:
 - http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
 
 Setup:
-- `bundle install`
+```
+gem install bundler
+bundle install
+```
 
 Unit Tests:
 - Run unit tests with `rspec`
