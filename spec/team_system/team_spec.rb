@@ -10,6 +10,7 @@ RSpec.describe Team, "#team_system" do
     @team5 = Team.new(size: 500)
     @team6 = Team.new(uid: nil, size: 100)
     @team6 << 10 << 20 << 30 << 40
+    @team6['444', '555'] = :super_team_name
   end
 
   context "with new team being created" do
@@ -35,6 +36,14 @@ RSpec.describe Team, "#team_system" do
 
     it "calculates average performance of team" do
       expect(@team6.rating_average).to eq 25
+    end
+  end
+
+  context "with team" do
+    let(:expected_team_groups) { {:super_team_name => ["444", "555"] } }
+
+    it "stores team ids and team name in team hash" do
+      expect(@team6.team_groups).to eq expected_team_groups
     end
   end
 end
