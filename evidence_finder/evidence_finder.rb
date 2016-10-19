@@ -19,13 +19,12 @@ class EvidenceFinder
   end
 
   def find_guilty_terms_in_evidence
-    result = []
     # positive lookahead using zero-length assertions, since matches cannot overlap
     regex_guilty_terms = /(?=(#{Regexp.union(@guilty_terms)}))/
     result = [].tap do |arr| 
       @evidence.scan(regex_guilty_terms) do |x| 
         arr << [$1, $~.begin(1)]
-        # arr << [index, Regexp.last_match.offset(0)[0]]
+        # alternative syntax: arr << [index, Regexp.last_match.offset(0)[0]]
       end
     end
   end
