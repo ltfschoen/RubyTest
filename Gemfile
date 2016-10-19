@@ -5,6 +5,7 @@ source "https://rubygems.org"
 
 gem 'activemodel', '~> 5.0.0.1'
 gem 'bigdecimal', '~> 1.2.7'
+gem 'to_regexp'
 
 group :development, :test do
   gem 'rspec', '~> 3.6.0.beta1', :require => false

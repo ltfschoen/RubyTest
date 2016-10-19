@@ -29,6 +29,7 @@ GEM
       rspec-support (= 3.6.0.beta1)
     rspec-support (3.6.0.beta1)
     thread_safe (0.3.5)
+    to_regexp (0.2.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
@@ -40,6 +41,7 @@ DEPENDENCIES
   bigdecimal (~> 1.2.7)
   factory_girl (~> 4.7.0)
   rspec (~> 3.6.0.beta1)
+  to_regexp
 
 RUBY VERSION
    ruby 2.3.1p112

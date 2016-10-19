@@ -30,7 +30,9 @@ class Team
   end
 
   # params are team ids to assign to team name stored in last element
-  def []=(*params); @team_groups[params.pop.to_sym] = params end
+  def []=(*params); @team_groups[params.pop.to_sym] = params.map { |param|
+    param.to_i if (param.is_a? String) || (param.is_a? Numeric) }
+  end
 
   private
 
