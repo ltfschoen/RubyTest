@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Purpose: Ruby filename to be minified and obfuscated. Outputs are automatically
-# generated in an ./outputs subdirectory. See README.md for instructions.
-
-# Usage Examples:
-#   sh ./main.sh
-#   
+# Purpose: Simple script that reads a Ruby file, generates a minified and 
+# obfuscated version, and then interprets the output to regenerate it again. 
+# Execute either by running `main.rb` Ruby file (uses command expansion to run this Shell script)
+# with `ruby main.rb` or with directly with `sh main.sh`. Outputs are automatically
+# generated in an ./outputs subdirectory.
 # IMPORTANT NOTE: Must be run from within the 'minify_and_obfuscate_ruby' directory
 
 # TODO - Add user prompt
