@@ -14,7 +14,7 @@
 MINLEN=0 # optionally exclude iteration of blank lines when MINLENGTH is 1
 input_file="./source.rb"
 reverse=""
-output_file="./outputs/output_minified_and_obfuscated.rb"
+output_file="./outputs/output_minified_and_obfuscated.min.rb"
 output_file_recovered="./outputs/output_unminified_and_unobfuscated.rb"
 
 # obfuscate: by reversing each line
