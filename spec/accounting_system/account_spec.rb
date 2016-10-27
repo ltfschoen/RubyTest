@@ -38,6 +38,8 @@ RSpec.describe Account, "#balance" do
      #  expect(Account.count).to_not equal 0
 		# 	p "Account Class Instances created by previous tests: #{Account.count}"
 		# 	Account.all.each { |account| Account.destruct(account) }
+    #   # http://stackoverflow.com/questions/9406419/deleting-an-object-in-ruby
+    #   # ObjectSpace.garbage_collect
 		# 	p "Account Class Instances after being destructed: #{Account.count}"
 		# 	# Account.all.each { |acct| p acct.balance.to_f.to_s + acct.object_id.to_s }
 		# 	puts GC::Profiler.result
