@@ -20,5 +20,10 @@ RSpec.describe FileList, "#file_list" do
       numbers = FileList.numbers_not_divisible_by_three
       expect(numbers).to eq [2, 4, 8, 10, 14, 16, 20, 22, 26, 28]
     end
+
+    it "performs coroutine using Fiber extension as expected" do
+      numbers = FileList.swap_between_producer_and_consumer
+      expect(numbers).to eq [11, 12]
+    end
   end
 end

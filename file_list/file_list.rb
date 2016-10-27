@@ -1,3 +1,7 @@
+# Fiber library (symmetric co-routines) to extend Fiber class for use of `transfer`
+# https://ruby-doc.org/core-2.2.0/Fiber.html
+require 'fiber'
+
 class FileList
 
   # Class method called by block so files manage their own lifecycle
@@ -52,5 +56,37 @@ class FileList
     end
     10.times { result << twos.resume }
     result
+  end
+
+  def self.swap_between_producer_and_consumer
+    # take items two at a time off queue, calling the producer if insufficient available
+    consumer = Fiber.new do |producer, queue|
+      5.times do
+        while queue.size < 2
+          # Transfer to Fiber `producer` and suspend calling Fiber `consumer`
+          queue = producer.transfer(consumer, queue)
+        end
+        # puts "Before Consume #{queue}"
+        queue.shift
+        queue.shift
+        # Retrieve and remove first array item
+        # puts "After Consume #{queue}"
+      end
+      queue
+    end
+
+    # add items three at a time to the queue
+    producer = Fiber.new do |consumer, queue|
+      value = 1
+      loop do
+        puts "Producing more stuff"
+        3.times { queue << value; value += 1}
+        # puts "Queue size is #{queue.size}"
+        # Transfer to Fiber `consumer` and suspend calling Fiber `producer`
+        consumer.transfer queue
+      end
+    end
+    # Transfer control to another Fiber and start or resume from where last stopped
+    consumer.transfer(producer, [])
   end
 end
