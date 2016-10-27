@@ -10,5 +10,15 @@ RSpec.describe FileList, "#file_list" do
       FileList.open_and_process("file_list/testfile", "r") { |file| while line = file.gets; contents << line; end }
       expect(contents.join).to eq expected_contents
     end
+
+    it "finds and counts words in file using Fiber as expected" do
+      # TODO
+      # expect (FileList.open_find_and_count_words("file_list/testfile")).to_not eq true
+    end
+
+    it "returns numbers not divisible by three using Fiber as expected" do
+      numbers = FileList.numbers_not_divisible_by_three
+      expect(numbers).to eq [2, 4, 8, 10, 14, 16, 20, 22, 26, 28]
+    end
   end
 end
