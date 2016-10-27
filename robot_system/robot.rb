@@ -1,13 +1,20 @@
 require_relative 'machine.rb'
 
 class Robot < Machine
-  attr_accessor :name, :name_count, :obj_count, :manufacturer
+  attr_accessor :name, :name_count, :obj_count, :manufacturer, :physical
 
   # Delegate to Setter methods instead of set instance variables directly.
-  def initialize(name); super; self.name = name; @name_count = name.length; @obj_count = Robot.count; end;
+  def initialize(name);
+    super;
+    self.name = name;
+    self.physical = [];
+    @name_count = name.length;
+    @obj_count = Robot.count;
+  end;
 
   # Setter method enforces rules
   def name=(name); @name = name; end
+  def physical=(physical); @physical = physical; end
 
   # Call with `puts <class_instance_name>`
   def to_s; "name: #{@name}"; end
