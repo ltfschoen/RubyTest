@@ -64,11 +64,12 @@ class ThreadSystem
     threads = 10.times.map do
       Thread.new do
         100_000.times do
-          mutex.lock          # permit only one thread at a tme
-          new_value = sum + 1 #
-          # print "#{new_value} " if new_value % 250_000 == 0
-          sum = new_value     #
-          mutex.unlock        #
+          # automatic mutex lock and unlock block
+          mutex.synchronize do          # permit only one thread at a tme
+            new_value = sum + 1         #
+            # print "#{new_value} " if new_value % 250_000 == 0
+            sum = new_value             #
+          end                           #
         end
       end
     end
