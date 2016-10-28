@@ -40,4 +40,41 @@ class ThreadSystem
     return nil
   end
 
+  def self.process_threads_race_condition_without_mutex
+    sum = 0
+    threads = 10.times.map do
+      Thread.new do
+        100_000.times do
+          new_value = sum + 1
+          # Race condition and data loss caused by this `print` call that causes another thread to spawn
+          # print "#{new_value} " if new_value % 250_000 == 0
+          print "" # cause the race condition without output
+          sum = new_value
+        end
+      end
+    end
+    threads.each(&:join)
+    # puts "\nsum = #{sum}"
+    sum
+  end
+
+  def self.process_threads_with_mutex
+    sum = 0
+    mutex = Mutex.new
+    threads = 10.times.map do
+      Thread.new do
+        100_000.times do
+          mutex.lock          # permit only one thread at a tme
+          new_value = sum + 1 #
+          # print "#{new_value} " if new_value % 250_000 == 0
+          sum = new_value     #
+          mutex.unlock        #
+        end
+      end
+    end
+    threads.each(&:join)
+    # puts "\nsum = #{sum}"
+    sum
+  end
+
 end

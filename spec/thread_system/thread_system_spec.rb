@@ -18,5 +18,12 @@ RSpec.describe ThreadSystem, "#thread_system" do
       expect(ThreadSystem.process_subthreads_handling_exception).to eq nil
     end
 
+    it "causes race condition resulting in values returned being less than expected" do
+      expect(ThreadSystem.process_threads_race_condition_without_mutex).to_not eq 1000000
+    end
+
+    it "using mutex to get correct result returned" do
+      expect(ThreadSystem.process_threads_with_mutex).to eq 1000000
+    end
   end
 end
