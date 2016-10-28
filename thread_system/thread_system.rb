@@ -1,3 +1,6 @@
+require 'thread'
+require "monitor"
+
 class ThreadSystem
 
   # main thread waits for subthreads that each finish in random order
@@ -76,6 +79,36 @@ class ThreadSystem
     threads.each(&:join)
     # puts "\nsum = #{sum}"
     sum
+  end
+
+  # Mutex-protected regions can NOT be re-entered by the same thread.
+  # Monitor-protected regions CAN be re-entered by the same thread.
+  def self.monitor_vs_mutex_regions
+    # This file is in public domain. Obtained from post by Martin Vahi
+    mx_monitor=Monitor.new
+    mx_mutex=Mutex.new
+
+    ob_thread_for_monitor = Thread.new do
+      mx_monitor.synchronize do
+        puts "Monitor buoy 1a { "
+        mx_monitor.synchronize do
+          puts "    Monitor buoy 2"
+        end # mx_monitor
+        puts "} Monitor buoy 1b"
+      end # mx_monitor
+    end # ob_thread_for_monitor
+    ob_thread_for_monitor.join # makes the main thread to wait for it
+
+    ob_thread_for_mutex = Thread.new do
+      mx_mutex.synchronize do
+        puts "Mutex buoy 1a { "
+        mx_mutex.synchronize do
+          puts "    Mutex buoy 2 (will never be reached)"
+        end # mx_mutex
+        puts "} Mutex buoy 1b (there's a crash before this line)"
+      end # mx_mutex
+    end # ob_thread_for_mutex
+    ob_thread_for_mutex.join # for code artistic values
   end
 
 end

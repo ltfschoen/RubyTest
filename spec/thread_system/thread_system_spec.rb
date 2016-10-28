@@ -25,5 +25,10 @@ RSpec.describe ThreadSystem, "#thread_system" do
     it "using mutex to get correct result returned" do
       expect(ThreadSystem.process_threads_with_mutex).to eq 1000000
     end
+
+    it "uses monitor and mutex regions causes deadlock when mutex protected region reentered by same thread" do
+      expect { ThreadSystem.monitor_vs_mutex_regions  }.to raise_error(ThreadError)
+    end
+
   end
 end
