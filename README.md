@@ -40,6 +40,7 @@ require_relative './evidence_finder/main'
 require_relative './metadata_checker/main'
 require_relative './team_system/main'
 require_relative './robot_system/main'
+require_relative './thread_system/main'
 ```
 - Experiment with reference to code used in "Example Usage"
 

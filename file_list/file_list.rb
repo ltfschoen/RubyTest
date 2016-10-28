@@ -79,7 +79,7 @@ class FileList
     producer = Fiber.new do |consumer, queue|
       value = 1
       loop do
-        puts "Producing more stuff"
+        # puts "Producing more stuff"
         3.times { queue << value; value += 1}
         # puts "Queue size is #{queue.size}"
         # Transfer to Fiber `consumer` and suspend calling Fiber `producer`
@@ -89,4 +89,5 @@ class FileList
     # Transfer control to another Fiber and start or resume from where last stopped
     consumer.transfer(producer, [])
   end
+
 end
