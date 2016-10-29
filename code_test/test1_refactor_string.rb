@@ -24,7 +24,7 @@ class Reformat
   end
 
   def reformat
-    if @unformatted.length >= 2 && @unformatted.length < 100
+    if @unformatted.length >= 2 && @unformatted.length <= 100
       removed_spaces = remove_all_spaces(@unformatted)
       extracted_integers = extract_integers(removed_spaces)
       grouped_in_threes_array = group_into_threes(extracted_integers)
