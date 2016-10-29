@@ -1,0 +1,153 @@
+/*
+$ psql
+psql: FATAL:  database "Ls" does not exist
+
+# create db to overcome error
+$ createdb
+
+# run psql or connect directly to specific db with `psql moments`
+$ psql
+psql (9.4.5)
+
+# create db
+create database moments;
+
+# list databases
+\l
+
+# change to database
+\c moments;
+
+# create table in moments table
+CREATE TABLE moments
+(
+  id SERIAL4 PRIMARY KEY,
+  moment_type BIGINT NOT NULL,
+  flag BIGINT NOT NULL,
+  time TIMESTAMP NOT NULL,
+  UNIQUE(moment_type, time)
+);
+INSERT INTO moments (moment_type, flag, time) VALUES (1, 7, '2016-10-29 12:00:00');
+INSERT INTO moments (moment_type, flag, time) VALUES (1, -30, '2016-10-29 13:00:00');
+INSERT INTO moments (moment_type, flag, time) VALUES (3, 5, '2016-10-29 14:00:00');
+INSERT INTO moments (moment_type, flag, time) VALUES (2, 9, '2016-10-29 18:00:00');
+INSERT INTO moments (moment_type, flag, time) VALUES (2, -20, '2016-10-29 17:00:00');
+INSERT INTO moments (moment_type, flag, time) VALUES (3, 10, '2016-10-29 16:00:00');
+
+# drop table
+drop table moments;
+
+# select moments table
+select * from moments;
+
+ id | moment_type | flag |        time
+----+------------+-------+---------------------
+  1 |          2 |     5 | 2015-05-09 12:42:00
+  2 |          4 |   -42 | 2015-05-09 13:19:57
+  3 |          2 |     2 | 2015-05-09 14:48:30
+  4 |          2 |     7 | 2015-05-09 12:54:39
+  5 |          3 |    16 | 2015-05-09 13:19:57
+  6 |          3 |    20 | 2015-05-09 15:01:09
+
+# write an SQL query that for each duplicate moment_type
+# returns difference b/w "flag" of moment_type with most recent time and second latest time (i.e. flag of most recent time minus flag of second latest time)
+# in table in ascending order by moment_type
+
+SELECT DISTINCT ON (moments.moment_type)
+	moments.moment_type,
+	moments.flag
+FROM moments
+ORDER BY moment_type ASC
+LIMIT 2;
+
+ moment_type | flag
+------------+-------
+          2 |     5
+          3 |    16
+
+SELECT DISTINCT ON (moments.moment_type)
+	moments.moment_type,
+	(moments.flag * 2) as flag
+FROM moments
+ORDER BY moment_type ASC
+LIMIT 2;
+
+# use Window Function
+# https://www.postgresql.org/docs/current/static/tutorial-window.html
+
+SELECT DISTINCT ON (moments.moment_type)
+	moments.moment_type,
+	avg(flag) OVER (PARTITION BY moment_type)
+FROM moments
+ORDER BY moment_type ASC
+LIMIT 2;
+
+# use Common Table Expressions (CTE)
+# https://www.postgresql.org/docs/9.3/static/queries-with.html
+
+# Conditional Expressions
+# https://www.postgresql.org/docs/9.1/static/functions-conditional.html
+
+# difference
+# https://msdn.microsoft.com/en-us/library/ms188753.aspx
+
+*/
+
+CREATE FUNCTION difference(most_recent_flag, second_most_recent_flag) RETURNS numeric AS $$
+  SELECT $1 - $2;
+$$ LANGUAGE SQL;
+
+WITH two_most_recent_flags AS (
+SELECT moments.flag
+FROM moments
+ORDER BY moments.time DESC
+LIMIT 2
+),
+most_recent_flag AS (
+SELECT *
+FROM two_most_recent_flags
+ORDER BY flag DESC
+LIMIT 1
+),
+second_most_recent_flag AS (
+SELECT *
+FROM two_most_recent_flags
+ORDER BY flag ASC
+LIMIT 1
+)
+
+-- My Solution (doesn't work)
+
+SELECT DISTINCT ON (moments.moment_type)
+moments.moment_type,
+difference(most_recent_flag, second_most_recent_flag) AS flag
+FROM moments
+ORDER BY moment_type ASC
+LIMIT 2;
+
+-- OTHER SOLUTIONS (both work)
+
+[https://stackoverflow.com/questions/40319067/unable-to-calculate-difference-between-cte-subquery-outputs-for-use-in-larger-po#40319140](https://stackoverflow.com/questions/40319067/unable-to-calculate-difference-between-cte-subquery-outputs-for-use-in-larger-po#40319140)
+
+-- Conditional Aggregation and Window Function
+select m.moment_type,
+       (max(case when seqnum_desc = 1 then flag end) -
+        min(case when seqnum_asc = 1 then flag end)
+       )
+from (select m.*,
+             row_number() over (partition by m.moment_type order by m.time) as seqnum_asc,
+             row_number() over (partition by m.moment_type order by m.time desc) as seqnum_desc
+      from moments m
+     ) m
+group by m.moment_type;
+
+
+-- Lag Window Function
+select moment_type, difference
+from (
+    select *, flag- lag(flag) over w difference
+    from moments
+    window w as (partition by moment_type order by time ASC)
+    ) AS s
+where difference is not null
+order by moment_type
