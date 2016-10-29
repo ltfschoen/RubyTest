@@ -19,9 +19,7 @@
 class Reformat
   attr_accessor :unformatted
 
-  def initialize(unformatted)
-    @unformatted = unformatted
-  end
+  def initialize(unformatted); @unformatted = unformatted; end
 
   def reformat
     if @unformatted.length >= 2 && @unformatted.length <= 100
@@ -58,24 +56,17 @@ class Reformat
   def apply_dashes_between_groups(s)
     output = []
     s.each_with_index do |element, index|
-      if index != s.length - 1
-        output << element + "-"
-      else
-        output << element
-      end
+      index != s.length - 1 ? output << element + "-" : output << element
     end
     output
   end
 
-  def convert_array_to_string(s)
-    s.join("")
-  end
+  def convert_array_to_string(s); s.join(""); end
 end
 
 # Warning: Do not change signature of this function!
 def solution(s)
   # write your code in Ruby 2.2
-
   r = Reformat.new(s)
   r.reformat
 end
