@@ -107,16 +107,19 @@ class Player
     @scores.join("").count("1")
   end
 end
-
-challenge1 = { question: "four squared?", answer: "16" }
-challenge2 = { question: "square root of 16?", answer: "4" }
-challenge3 = { question: "modulus 16 % 5?", answer: "1" }
-level1 = Level.new(1, challenge1)
-level2 = Level.new(2, challenge2)
-level3 = Level.new(3, challenge3)
+challenges = [
+  { question: "four squared?", answer: "16" },
+  { question: "square root of 16?", answer: "4" },
+  { question: "modulus 16 % 5?", answer: "1" }
+]
+levels = []
+challenges.each_with_index do |challenge, index|
+  level_id = index + 1
+  levels << Level.new(level_id, challenge)
+end
 player1 = Player.new("p1", 1)
 player2 = Player.new("p2", 1)
 players = [player1, player2]
-levels = [level1, level2, level3]
+
 game1 = Game.new("cs", players, levels)
 game1.run
