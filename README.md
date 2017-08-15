@@ -48,3 +48,4 @@ Example Usage:
 - Run exercise_system with `ruby ./exercise_system/main.rb`
 - Run accounting_system with `ruby ./accounting_system/main.rb`
 - Run Ruby minify and obfuscate, and then unminify and unobfuscate: `cd minify_and_obfuscate_ruby && ruby ./main.rb; ruby ./main.rb`. Inspect the outputs files generated in folder ./minify_and_obfuscate_ruby/outputs, and then reset by running `ruby ./main.rb` a third time or with `rm -rf outputs` and repeat these steps. IMPORTANT NOTE: Calling shell script from `ruby main.rb` prevents echo's and prompts for user input from showing up in Bash. They only appear when run with `sh main.rb`.
+- Run mathgame: `ruby mathgame/game.rb`
