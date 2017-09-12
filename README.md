@@ -5,6 +5,7 @@ Setup:
 ```
 gem install bundler
 bundle install
+bundle update
 ```
 
 - Add/update latest RVM and add latest Ruby version
@@ -13,7 +14,7 @@ rvm -v
 rvm get stable
 rvm reload
 rvm list
-rvm install ruby-2.3.1
+rvm install ruby-2.4.1
 ```
 
 - Create custom local Gemset (i.e. "rubymine_2016_4_2" and add gems to it)
@@ -24,7 +25,7 @@ rvm ruby-2.3.1@rubymine_2016_2_4 do gem list
 ```
 
 Unit Tests:
-- Run unit tests with `rspec`
+- Run unit tests with `bundle exec rspec`
 *Note: [Raised Mixin issue on StackOverflow](https://stackoverflow.com/questions/40052573/unable-to-call-ruby-mixin-instance-method-from-rspec)*
 
 Experimentation:
