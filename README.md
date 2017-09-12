@@ -14,14 +14,16 @@ rvm -v
 rvm get stable
 rvm reload
 rvm list
+rvm gemdir
 rvm install ruby-2.4.1
 ```
 
-- Create custom local Gemset (i.e. "rubymine_2016_4_2" and add gems to it)
+- Create custom local Gemset (i.e. "ruby_test" and add gems to it)
 ```
-rvm ruby-2.3.1 do rvm gemset create rubymine_2016_4_2
-rvm ruby-2.3.1@rubymine_2016_2_4 do gem install to_regexp
-rvm ruby-2.3.1@rubymine_2016_2_4 do gem list
+rvm ruby-2.4.1 do rvm gemset create ruby_test
+rvm --ruby-version use 2.4.1@ruby_test
+rvm ruby-2.4.1@ruby_test do gem install to_regexp
+rvm ruby-2.4.1@ruby_test do gem list
 ```
 
 Unit Tests:

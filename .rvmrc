@@ -1,1 +1,1 @@
-rvm install ruby-2.4.1; rvm --ruby-version use 2.4.1; rvm reload;
+rvm --ruby-version use 2.4.1@ruby-test; rvm reload;
