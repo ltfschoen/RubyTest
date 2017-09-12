@@ -1,13 +1,14 @@
 class BoggleBoard
   def initialize
+    @space = Array.new(16, "_")
   end
 
   def shake!
   end
 
-  # Defining to_s on an object controls how the object is
-  # represented as a string, e.g., when you pass it to puts
   def to_s
-    "omg what is this? try printing me."
+    print @space
   end
 end
+
+puts BoggleBoard.new
